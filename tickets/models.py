@@ -32,6 +32,7 @@ class Reservation(models.Model):
     def __str__(self):
        return f"{self.client}_{self.movie}"
 
+
 # signals
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def token_created(sender, instance, created, **kwars):
