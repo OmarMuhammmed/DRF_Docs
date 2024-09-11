@@ -15,8 +15,10 @@ class ReservationSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class ClientSerializer(serializers.ModelSerializer):
-
+    last_name = serializers.SerializerMethodField(read_only=True)
     class Meta :
         model = Client
-        fields = ['pk','reservation','name','phone']
-        
+        fields = ['pk','reservation','name','phone','last_name']
+
+    def get_last_name(self,obj):
+        return f"{obj.name} {obj.last_name}"
