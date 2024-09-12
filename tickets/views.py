@@ -9,7 +9,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny,IsAuth
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication,SessionAuthentication
-
+from .pagination import TicketPagination
+from rest_framework.filters import SearchFilter
 # without RF and no model query FBV 
 def no_rest_no_model(request):
     clients = [
@@ -183,6 +184,9 @@ class MixinsPk(mixins.RetrieveModelMixin,
 class GenericsList(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class =  ClientSerializer
+    pagination_class = TicketPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'phone']
     
 
 
