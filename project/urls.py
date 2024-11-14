@@ -2,11 +2,14 @@ from django.contrib import admin
 from django.urls import path,include
 from tickets import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
+
+
 router = DefaultRouter()
 router.register('clients',views.ViewSetsALl_Client)
 router.register('movies',views.ViewSetsALl_Movie)
 router.register('reservation',views.ViewSetsALl_Reservation)
-from rest_framework.authtoken.views import obtain_auth_token
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 1 
@@ -37,6 +40,7 @@ urlpatterns = [
     path('fbv/createreservation/',views.create_reservation),
     
     path('api-auth/', include('rest_framework.urls')),
+
     # Api-Token auth 
     path('api-token-auth/',obtain_auth_token)
 

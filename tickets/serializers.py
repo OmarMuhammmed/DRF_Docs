@@ -8,7 +8,7 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
         
-class ReservationSerializer(serializers.ModelSerializer):
+class ReservationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta :
         model = Reservation

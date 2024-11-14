@@ -11,6 +11,36 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication,SessionAuthentication
 from .pagination import TicketPagination
 from rest_framework.filters import SearchFilter
+from django.contrib.auth.models import User 
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
+from .permissions import Check_API_KEY_Auth
+class ExampleAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        username = request.META.get('X_USERNAME')
+        if not username : 
+            return None 
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise AuthenticationFailed('User not found')  
+
+        return (user, None)  
+
+class ExampleView(APIView):
+    permission_classes = [Check_API_KEY_Auth]
+
+    # Logic you want .....
+    # GET, POST, PUT, PATCH, DELETE 
+    pass 
+
+@api_view(['GET'])
+@permission_classes((Check_API_KEY_Auth,))
+def example_view(request):
+    # Logic 
+    pass 
+
+
 # without RF and no model query FBV 
 def no_rest_no_model(request):
     clients = [
