@@ -235,7 +235,8 @@ class ViewSetsALl_Movie(viewsets.ModelViewSet):
     serializer_class =  MovieSerializer
 
 class ViewSetsALl_Reservation(viewsets.ModelViewSet):
-    queryset = Reservation.objects.all()
+    # how to use select_related
+    queryset = Reservation.objects.select_related('client')
     serializer_class =  ReservationSerializer
 
 # find Movie
