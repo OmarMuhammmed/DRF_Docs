@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny,IsAuth
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication,SessionAuthentication
-from .pagination import TicketPagination
+from .pagination import TicketPagination, CostumCursorPagination
 from rest_framework.filters import SearchFilter
 from django.contrib.auth.models import User 
 from rest_framework.authentication import BaseAuthentication
@@ -145,7 +145,7 @@ class ListCBV(APIView):
 # GET, PUT, DELETE
 # OOP
 class CbvPk(APIView):
-    
+    authentication_classes = [TokenAuthentication]
     def get_object(self,pk):
         try:
             return Client.objects.get(pk=pk)
@@ -153,7 +153,7 @@ class CbvPk(APIView):
             raise Http404 
         
     def get(self,request,pk):
-        client= self.get_object(pk) # access object in self 
+        client = self.get_object(pk) # access object in self 
         serializer = ClientSerializer(client) # becuse to accec one client no many
         return Response(serializer.data) 
     
@@ -214,7 +214,7 @@ class MixinsPk(mixins.RetrieveModelMixin,
 class GenericsList(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class =  ClientSerializer
-    pagination_class = TicketPagination
+    pagination_class = CostumCursorPagination
     filter_backends = [SearchFilter]
     search_fields = ['name', 'phone']
     
@@ -223,12 +223,14 @@ class GenericsList(generics.ListCreateAPIView):
 class GenericsPK(generics.RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
     serializer_class =  ClientSerializer
+    
 
 
 # viewsets
 class ViewSetsALl_Client(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class =  ClientSerializer
+    
 
 class ViewSetsALl_Movie(viewsets.ModelViewSet):
     queryset = Movie.objects.all()

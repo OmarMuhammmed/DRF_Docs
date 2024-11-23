@@ -4,6 +4,12 @@ from tickets import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
+# ___________________________________
+# from rest_framework import routers
+# router = routers.SimpleRouter() # initialize the router.
+# router.register(r'myview', MyViewSet) # register MyViewSet to the router.
+# ___________________________________   
+
 
 router = DefaultRouter()
 router.register('clients',views.ViewSetsALl_Client)

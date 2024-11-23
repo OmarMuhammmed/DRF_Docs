@@ -38,13 +38,9 @@ SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissions', # You can control it manually with django Admin
-        
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        
     ),
 }
 
