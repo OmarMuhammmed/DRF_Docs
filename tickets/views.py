@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import JsonResponse, Http404
 from rest_framework.response import Response
 from .models import Client, Movie, Reservation
@@ -15,6 +15,10 @@ from django.contrib.auth.models import User
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from .permissions import Check_API_KEY_Auth
+from django.contrib.auth import authenticate, login, logout 
+from django.contrib.sessions.models import Session
+
+
 class ExampleAuthentication(BaseAuthentication):
     def authenticate(self, request):
         username = request.META.get('X_USERNAME')
@@ -276,3 +280,33 @@ def create_reservation(request):
     reservation.save()
     # 4. Return a response indicating the reservation was created successfully
     return Response(status=status.HTTP_201_CREATED)
+
+
+# --- Authentication Methods ---
+# 1. session-based authentication
+# Not recommended for APIs, but useful for web applications (MVT)
+def login_view_session_auth(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # set user-specific data in the session
+            request.session['username'] = username
+            request.session.save()
+            return render("your_template.html")
+        else:
+            # handle invalid login
+           pass
+    else:
+        # display the login form
+        pass
+
+def logout_view_session_auth(request):
+    logout(request)
+    # clear the user's session data
+    Session.objects.filter(session_key=request.session.session_key).delete()
+    return redirect('home')    
+
+# ----------------------------------------

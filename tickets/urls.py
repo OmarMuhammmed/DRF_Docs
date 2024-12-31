@@ -1,6 +1,7 @@
 from django.urls import  path
-
+from . import views
 
 urlpatterns = [
-  path()
+    # Autenticacion
+    # path('sessionauth/', views.login_view_session_auth, name='sessionauth'),
 ]

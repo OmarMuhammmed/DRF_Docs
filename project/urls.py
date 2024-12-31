@@ -48,6 +48,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
 
     # Api-Token auth 
-    path('api-token-auth/',obtain_auth_token)
+    path('api-token-auth/',obtain_auth_token),
+
+    # app 
+    path('tickets/', include('tickets.urls')),
 
 ]
