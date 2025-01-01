@@ -283,7 +283,7 @@ def create_reservation(request):
 
 
 # --- Authentication Methods ---
-# 1. session-based authentication
+# session-based authentication
 # Not recommended for APIs, but useful for web applications (MVT)
 def login_view_session_auth(request):
     if request.method == 'POST':

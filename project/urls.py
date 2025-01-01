@@ -1,8 +1,9 @@
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include, re_path
 from tickets import views
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
+
 
 # ___________________________________
 # from rest_framework import routers
@@ -18,6 +19,9 @@ router.register('reservation',views.ViewSetsALl_Reservation)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    re_path(r'dj-rest-auth/', include('dj_rest_auth.urls')),
+    
     # 1 
     path('django/jsonresponsenomodel/',views.no_rest_no_model),
     # 2 
@@ -52,5 +56,8 @@ urlpatterns = [
 
     # app 
     path('tickets/', include('tickets.urls')),
+
+   
+    
 
 ]

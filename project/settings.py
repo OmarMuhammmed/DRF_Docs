@@ -29,6 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    # lib auth 
+    'dj_rest_auth',
+    # my apps
     'tickets',
 
 ]
