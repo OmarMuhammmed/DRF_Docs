@@ -309,4 +309,5 @@ def logout_view_session_auth(request):
     Session.objects.filter(session_key=request.session.session_key).delete()
     return redirect('home')    
 
-# ----------------------------------------
+# -----------END Authentication Methods-----------------------------
+
