@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse, Http404
 from rest_framework.response import Response
 from .models import Client, Movie, Reservation
-from rest_framework.decorators import api_view,  permission_classes,authentication_classes
+from rest_framework.decorators import api_view, throttle_classes, permission_classes,authentication_classes
 from .serializers import ClientSerializer, MovieSerializer, ReservationSerializer
 from rest_framework import status, filters, generics, mixins,viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,AllowAny,IsAuthenticated
@@ -17,7 +17,10 @@ from rest_framework.exceptions import AuthenticationFailed
 from .permissions import Check_API_KEY_Auth
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.sessions.models import Session
+from rest_framework.throttling import UserRateThrottle
 
+class OncePerDayUserThrottle(UserRateThrottle):
+    rate = '1/day'
 
 class ExampleAuthentication(BaseAuthentication):
     def authenticate(self, request):
@@ -46,6 +49,8 @@ def example_view(request):
 
 
 # without RF and no model query FBV 
+@api_view(['GET'])
+@throttle_classes([OncePerDayUserThrottle])
 def no_rest_no_model(request):
     clients = [
         {
